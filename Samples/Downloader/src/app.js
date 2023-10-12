@@ -122,7 +122,7 @@ const handleRequest = async (req, res) => {
   // 경로 잘 체크할것.
   const parentRootPath = path.resolve(
     __dirname,
-    `../Resources/`
+    `../../Resources/`
   );
 
   console.log(`root path : [${parentRootPath}]`);
