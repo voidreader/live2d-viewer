@@ -164,7 +164,13 @@ const handleRequest = async (req, res) => {
     .then((values) => {
       // 이 시점에 다운로드가 완료되고, 로컬에 파일을 생성 했음. (다!)
       console.log("Download Done!");
-      updateMotionList(mainFile, list, res);
+      
+      setTimeout( () => {
+        console.log('Update motion list!');
+        updateMotionList(mainFile, list, res);  
+      }, 1500)
+      
+      
     })
     .catch((err) => {
       console.log(err);

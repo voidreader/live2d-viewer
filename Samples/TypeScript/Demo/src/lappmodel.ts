@@ -44,6 +44,7 @@ import { LAppPal } from './lapppal';
 import { TextureInfo } from './lapptexturemanager';
 import { LAppWavFileHandler } from './lappwavfilehandler';
 import { CubismMoc } from '@framework/model/cubismmoc';
+import { LAppLive2DManager } from './lapplive2dmanager';
 
 enum LoadStep {
   LoadAssets,
@@ -355,11 +356,24 @@ export class LAppModel extends CubismUserModel {
 
       const motionGroupCount: number = this._modelSetting.getMotionGroupCount();
 
+      // * 버튼 생성 들어갈 div
+      const btnList = document.getElementById('buttonMotionList');
+
       // モーションの総数を求める
       for (let i = 0; i < motionGroupCount; i++) {
         group[i] = this._modelSetting.getMotionGroupName(i);
         this._allMotionCount += this._modelSetting.getMotionCount(group[i]);
+
+        // 버튼 생성
+        const button = document.createElement('button');
+        button.innerText = group[i];
+        button.className = 'button_motion';
+        button.id = group[i];
+        button.addEventListener('click', this.onClickMotionButton);
+        btnList.appendChild(button);
       }
+
+      console.log('모션 그룹 : ', group);
 
       // モーションの読み込み
       for (let i = 0; i < motionGroupCount; i++) {
@@ -381,6 +395,22 @@ export class LAppModel extends CubismUserModel {
         this.getRenderer().startUp(gl);
       }
     };
+  }
+
+  /**
+   * 모션 버튼 클릭 이벤트 함수
+   */
+  private onClickMotionButton(event: any): void {
+    console.log('onClickMotionButton :: ', event.target);
+
+    const motionName: string = event.target.id; // 모션 이름
+
+    LAppLive2DManager.getInstance()._models.at(0).startMotion(
+      motionName, // 모션 이름
+      0, // 어차피 0
+      3, // 강제 모션 실행
+      LAppLive2DManager.getInstance()._finishedMotion // 콜백
+    );
   }
 
   /**
@@ -764,7 +794,7 @@ export class LAppModel extends CubismUserModel {
             this._state = LoadStep.LoadTexture;
 
             // 全てのモーションを停止する
-            this._motionManager.stopAllMotions();
+            // this._motionManager.stopAllMotions();
 
             this._updating = false;
             this._initialized = true;

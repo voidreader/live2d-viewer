@@ -2,18 +2,51 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TypeScript HTML App</title>
+  <meta name="viewport" content="width=1900" />
+  <title>Live2D Viewer</title>
   <style>
-    html, body {
-        margin: 0;
-        overflow: hidden;
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
     }
-    canvas {
-        width: 100vw;
-        height: 100vh;
-        display: block;
+    body {
+      padding: 1rem 2rem;
+      border: 0;
+      display: flex;
     }
+    button {
+      border: none;
+      background-color: none;
+    }
+    .button_motion {
+      margin: 0px 10px 12px 0;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    .layout {
+      width: 250px;
+      margin-right: 10px;
+    }
+    .title_motion {
+      margin-top: 50px;
+    }
+    .size_text_wrap {
+      display: none;
+    }
+    .button_size_wrap {
+    }
+    .button_size_wrap > button {
+      background-color: #f7f8f9;
+      box-shadow: 3px 3px 8px -1px rgb(0 0 0 / 20%);
+      padding: 0.8rem;
+      border-radius: 50%;
+    }
+    .button_size_wrap > button:hover {
+      background-color: #e4e4e6;
+    }
+
+    /* 버튼 스타일링 */
   </style>
   <!-- Pollyfill script -->
   <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
@@ -23,5 +56,20 @@
   <script src = "./dist/bundle.js"></script>
 </head>
 <body>
+  <div class="layout">
+    <h3>캔버스 크기 조정</h3>
+    <div id="sizeText" class="size_text_wrap">
+      <p>
+        Width : <span id="widthSize"></span> * Height :
+        <span id="heightSize"></span>
+      </p>
+    </div>
+    <div class="button_size_wrap">
+      <button class="button_size_style" id="add" name="add">➕</button>
+      <button class="button_size_style" id="minus" name="minus">➖</button>
+    </div>
+    <h3 class="title_motion">모션</h3>
+    <div id="buttonMotionList"></div>
+  </div>
 </body>
 </html>

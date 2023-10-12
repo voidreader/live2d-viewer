@@ -18,6 +18,10 @@ export let s_instance: LAppDelegate = null;
 export let gl: WebGLRenderingContext = null;
 export let frameBuffer: WebGLFramebuffer = null;
 
+// * 파라매터로 받아오는 모델 경로와 json 이름.
+export let paramModelPath: string = null;
+export let paramModelJsonName: string = null;
+
 /**
  * アプリケーションクラス。
  * Cubism SDKの管理を行う。
@@ -49,6 +53,29 @@ export class LAppDelegate {
   }
 
   /**
+   * URL 파라미터 가져오기
+   */
+  public GetOpenParameters() {
+    const curr_url = document.URL;
+    const new_curr_url = new URL(curr_url);
+    const param1 = new_curr_url.searchParams.get('modelid');
+    const param2: string = new_curr_url.searchParams.get('modelinfo');
+    console.log(curr_url);
+    console.log(new_curr_url);
+    console.log(param1);
+    console.log(param2);
+
+    // 쪼개서 메인 파일을 골라낸다.
+    const arrSplits = param2.split('/');
+    console.log(arrSplits);
+
+    paramModelPath = `../../Resources/${param2.replace(arrSplits[3], '')}`; // 상대경로에서 파일명 뺀거.
+    paramModelJsonName = arrSplits[3]; // 파일명
+    console.log('paramModelPath :: ', paramModelPath);
+    console.log('paramModelJsonName :: ', paramModelJsonName);
+  }
+
+  /**
    * APPに必要な物を初期化する。
    */
   public initialize(): boolean {
@@ -72,13 +99,23 @@ export class LAppDelegate {
 
     // キャンバスを DOM に追加
     document.body.appendChild(canvas);
+    canvas.width = 900;
+    canvas.height = 800;
 
-    if (LAppDefine.CanvasSize === 'auto') {
-      this._resizeCanvas();
-    } else {
-      canvas.width = LAppDefine.CanvasSize.width;
-      canvas.height = LAppDefine.CanvasSize.height;
-    }
+    // if (LAppDefine.CanvasSize === 'auto') {
+    //   console.log(`lappdelegate init 'auto`);
+
+    //   this._resizeCanvas();
+    // } else {
+    //   console.log(`lappdelegate init 'not auto`);
+
+    //   // * 캔버스 사이즈 조정
+    //   canvas.width = 900;
+    //   canvas.height = 800;
+
+    //   // canvas.width = LAppDefine.CanvasSize.width;
+    //   // canvas.height = LAppDefine.CanvasSize.height;
+    // }
 
     if (!frameBuffer) {
       frameBuffer = gl.getParameter(gl.FRAMEBUFFER_BINDING);
@@ -103,13 +140,40 @@ export class LAppDelegate {
       canvas.addEventListener('mouseup', onClickEnded, { passive: true });
     }
 
+    // * 사이즈 조정 버튼 추가
+    const addButton = document.querySelector('#add');
+    const minusButton = document.querySelector('#minus');
+
+    addButton.addEventListener('click', this.onClickSizeButton);
+    minusButton.addEventListener('click', this.onClickSizeButton);
+
     // AppViewの初期化
     this._view.initialize();
+
+    // * 파라매터 가져오기
+    this.GetOpenParameters();
 
     // Cubism SDKの初期化
     this.initializeCubism();
 
     return true;
+  }
+
+  /**
+   * * 캔버스 크기 조절 클릭 이벤트
+   */
+  private onClickSizeButton(event: any): void {
+    const { width, height } = canvas;
+
+    console.log('on click size button ::', width, '|', height);
+    const buttonId = event.target.id;
+    if (buttonId === 'add') {
+      canvas.width = canvas.width + 50;
+      canvas.height = canvas.height + 50;
+    } else {
+      canvas.width = canvas.width - 50;
+      canvas.height = canvas.height - 50;
+    }
   }
 
   /**
@@ -284,6 +348,12 @@ export class LAppDelegate {
     LAppPal.updateTime();
 
     this._view.initializeSprite();
+
+    // ! 다 초기화 하고, mountModel 불러온다
+    LAppLive2DManager.getInstance().mountModel(
+      paramModelPath,
+      paramModelJsonName
+    );
   }
 
   /**

@@ -129,6 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# resource
+Resources/
+
 # cert
 cert/
 package-lock.json

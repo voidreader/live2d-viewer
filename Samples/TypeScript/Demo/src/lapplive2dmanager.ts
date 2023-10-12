@@ -191,6 +191,17 @@ export class LAppLive2DManager {
     this._models.at(0).loadAssets(modelPath, modelJsonName);
   }
 
+  /**
+   * 지정한 경로의 모델을 불러오도록 처리!
+   * define을 사용하지 않고, 내가 준 경로랑 파일명으로 된 모델명을 불러와라!
+   */
+  public mountModel(modelPath: string, modelJson: string) {
+    this.releaseAllModel();
+    this._models.pushBack(new LAppModel());
+    // 폴더경로, 파일명
+    this._models.at(0).loadAssets(modelPath, modelJson);
+  }
+
   public setViewMatrix(m: CubismMatrix44) {
     for (let i = 0; i < 16; i++) {
       this._viewMatrix.getArray()[i] = m.getArray()[i];
