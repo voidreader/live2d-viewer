@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "filedownloader", // pm2 name
+      name: "live2d-downloader", // pm2 name
       script: "./server-register.js", // // 앱 실행 스크립트
       instances: 1, // 클러스터 모드 사용 시 생성할 인스턴스 수
       exec_mode: "fork", // fork, cluster 모드 중 선택
