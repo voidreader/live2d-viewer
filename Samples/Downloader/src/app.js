@@ -72,6 +72,9 @@ const handleMotionPush = (model3, list) => {
 
       model3.FileReferences.Motions[motionName].push(fileObj);
     }
+    
+    // console.log(model3.FileReferences.Motions);
+    
   }); // end of forEach
   // return 해준다.
   return model3;

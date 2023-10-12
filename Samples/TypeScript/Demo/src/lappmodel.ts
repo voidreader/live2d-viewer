@@ -83,6 +83,8 @@ export class LAppModel extends CubismUserModel {
    * @param fileName
    */
   public loadAssets(dir: string, fileName: string): void {
+    console.log(`loadAssets called`, fileName);
+
     this._modelHomeDir = dir;
 
     fetch(`${this._modelHomeDir}${fileName}`)
@@ -331,6 +333,8 @@ export class LAppModel extends CubismUserModel {
 
     // Layout
     const setupLayout = (): void => {
+      console.log(`lappmodel setupLayout`);
+
       const layout: csmMap<string, number> = new csmMap<string, number>();
 
       if (this._modelSetting == null || this._modelMatrix == null) {

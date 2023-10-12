@@ -69,8 +69,12 @@ export class LAppDelegate {
     const arrSplits = param2.split('/');
     console.log(arrSplits);
 
-    paramModelPath = `../../Resources/${param2.replace(arrSplits[3], '')}`; // 상대경로에서 파일명 뺀거.
-    paramModelJsonName = arrSplits[3]; // 파일명
+    paramModelPath = `../../Resources/${param2.replace(
+      arrSplits[arrSplits.length - 1],
+      ''
+    )}`; // 상대경로에서 파일명 뺀거.
+    // paramModelPath = `../../Resources/${param2}`;
+    paramModelJsonName = arrSplits[arrSplits.length - 1]; // 파일명
     console.log('paramModelPath :: ', paramModelPath);
     console.log('paramModelJsonName :: ', paramModelJsonName);
   }
@@ -424,7 +428,7 @@ function onClickEnded(e: MouseEvent): void {
   const posX: number = e.clientX - rect.left;
   const posY: number = e.clientY - rect.top;
 
-  LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
+  // LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 
 /**

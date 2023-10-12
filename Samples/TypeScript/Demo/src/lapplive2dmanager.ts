@@ -199,6 +199,8 @@ export class LAppLive2DManager {
     this.releaseAllModel();
     this._models.pushBack(new LAppModel());
     // 폴더경로, 파일명
+
+    // console.log(`mountModel : `, __dirname);
     this._models.at(0).loadAssets(modelPath, modelJson);
   }
 
@@ -215,7 +217,9 @@ export class LAppLive2DManager {
     this._viewMatrix = new CubismMatrix44();
     this._models = new csmVector<LAppModel>();
     this._sceneIndex = 0;
-    this.changeScene(this._sceneIndex);
+    // 실행시 자동으로 불러오지 않도록 했다.
+    // 자동으로 DEFINE의 첫번째 배열의 모델을 불러오지 않기 위해서.
+    // this.changeScene(this._sceneIndex);
   }
 
   _viewMatrix: CubismMatrix44; // モデル描画に用いるview行列
